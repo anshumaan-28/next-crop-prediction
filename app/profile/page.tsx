@@ -51,7 +51,7 @@ const profileData: Profile = {
   ]
 };
 
-// Report card component
+
 const ReportCard = ({ id, title, date, location, status }: { 
   id: string; 
   title: string; 
