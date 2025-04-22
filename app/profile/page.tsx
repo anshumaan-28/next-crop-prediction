@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { motion } from "framer-motion";
 import { FiUser, FiLogOut, FiSettings, FiChevronDown, FiExternalLink } from "react-icons/fi";
 
-// Sample profile data (in a real app, this would come from a database or API)
+
 interface Report {
   id: string;
   date: string;
