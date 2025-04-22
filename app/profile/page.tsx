@@ -127,7 +127,7 @@ export default function Profile() {
 
       <main className="flex-1 container mx-auto px-4 py-8 bg-background text-foreground">
         <div className="flex flex-col md:flex-row gap-6">
-          {/* User Profile Section */}
+
           <motion.div 
             className="w-full md:w-1/3"
             initial="initial"
