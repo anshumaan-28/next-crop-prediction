@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 // The prompt for the Gemini API
 const createPrompt = (
@@ -92,12 +92,19 @@ const createPrompt = (
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { soilType, selectedState, selectedDistrict, waterSource, currentCrop, farmArea } = body;
+    const {
+      soilType,
+      selectedState,
+      selectedDistrict,
+      waterSource,
+      currentCrop,
+      farmArea,
+    } = body;
 
     // Validate required fields
     if (!soilType || !selectedState || !waterSource || !farmArea) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
@@ -114,16 +121,16 @@ export async function POST(request: Request) {
 
     // Call Gemini API
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+      "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": process.env.GEMINI_API_KEY || ""
+          "x-goog-api-key": process.env.GEMINI_API_KEY || "",
         },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        })
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
       }
     );
 
@@ -133,14 +140,14 @@ export async function POST(request: Request) {
     if (!response.ok) {
       console.error("Gemini API error:", data);
       return NextResponse.json(
-        { error: 'Failed to fetch crop recommendations' },
+        { error: "Failed to fetch crop recommendations" },
         { status: response.status }
       );
     }
 
     // Extract text from Gemini response
     const generatedText = data.candidates[0].content.parts[0].text;
-    
+
     // Parse JSON from text - extract the JSON part
     const jsonMatch = generatedText.match(/\[[\s\S]*\]/);
     const recommendedCrops = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
@@ -149,8 +156,8 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error processing request:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
-} 
+}
